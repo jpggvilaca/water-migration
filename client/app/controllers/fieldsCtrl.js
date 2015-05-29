@@ -28,11 +28,20 @@ angular.module("FieldsCtrl", ['apiCalls','indexService'])
 
         // Methods
 
-        this.weather = function() {
-            Api.weatherCall(this.methodChosen, this.city, this.lat, this.lon)
-                .success(function(data) {
-                    console.log(data);
-                })
+        this.weather = function(value) {
+            if (value) {
+                Api.weatherCall(this.methodChosen, this.city, this.lat, this.lon)
+                    .success(function(data) {
+                        console.log(data);
+                    })
+                    .error(function(data) {
+                        console.log(data.message);
+                    })
+
+                    return false;
+            }
+
+            else return;
         };
 
         this.octave = function() {

@@ -144,7 +144,7 @@
 
     <div class="row ">
         <div class="large-6 columns">
-            <a href="#" class="button success" ng-click="campos.weather()">Enviar dados</a>
+            <a href="#" class="button success" ng-disabled='!campos.methodChosen' ng-click="disabled || campos.weather(campos.methodChosen)">Enviar dados</a>
             <a href="#" class="button success" ng-click="campos.octave()">Octave cenas</a>
             <a href="#" class="button success" ng-click="campos.plantCoeficient()">plant cenas</a>
             <a href="#" class="button success" ng-click="campos.waterCoeficient()">water cenas</a>

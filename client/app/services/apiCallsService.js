@@ -14,7 +14,7 @@ angular.module('apiCalls', [])
             if( methodChosen == 'Cidade' ) {
               urlResult = 'http://api.openweathermap.org/data/2.5/weather?q='+ city + ',PT';
             } 
-            else {
+            if( methodChosen == 'Coordenadas' ) {
               urlResult = 'http://api.openweathermap.org/data/2.5/weather?'+'lat='+ lat +'&'+'lon='+ lon;
             }
 
