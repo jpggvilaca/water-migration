@@ -1,34 +1,167 @@
-<html>
+<html ng-app="Watering">
 <head>
   <meta charset="utf-8">
   <meta http-equiv=X-UA-Compatible content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planeamento de Rega</title>
-  <link rel='stylesheet' href='build/styles/index.css'>
-  <link href="build/styles/bootstrap.min.css" rel="stylesheet">
+
+  <link rel='stylesheet' href="build/styles/index.css">
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Questrial">
-  <script src='https://cdn.jsdelivr.net/riot/2.0/riot.min.js'></script>
+
+  <!-- Dependencies -->
+  <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="bower_components/chartjs/Chart.js"></script>
+  <script type="text/javascript" src="node_modules/angular/angular.js"></script>
+  <script type="text/javascript" src="node_modules/foundation-sites/js/foundation/foundation.js"></script>
+  <script type="text/javascript" src="node_modules/foundation-sites/js/vendor/modernizr.js"></script>
+  <script type="text/javascript" src="node_modules/foundation-sites/js/foundation/foundation.tooltip.js"></script>
+  <script type="text/javascript" src="build/js/index.js"></script>
+
+
+  <!-- Services -->
+  <script src="client/app/services/apiCallsService.js"></script>
+  <script src="client/app/services/indexService.js"></script>
+
+  <!-- Controllers -->
+  <script src="client/app/controllers/fieldsCtrl.js"></script>
+
+  <!-- Directives -->
+  
+  <!-- Main module -->
+  <script src="client/app.js"></script>
+  
 
 </head>
 <body>
+
   <div class="header">
     <h1>Planeamento de Rega</h1>
     <h2>— A planta e as suas necessidades hídricas —</h2>
   </div>
-  <div class="main-wrapper">
-    <sendinfo></sendinfo>
+
+
+  <div class="main-wrapper" ng-controller="FieldController as campos">
+
+    <!-- Localização -->
+    <div class="row">
+        <div class="large-6 columns">
+          <form>
+            <fieldset>
+              <span data-tooltip aria-haspopup="true" class="has-tip" title="Escolher coordenadas resultará numa maior precisão de cálculo.">Precisa de ajuda?</span>
+              <legend>Localização</legend>
+              <div class="row">
+                  <div class="large-4 columns">
+                    <select ng-model="campos.methodChosen" ng-required>
+                      <option value="">Escolha o método</option>
+                      <option value="Cidade">Cidade</option>
+                      <option value="Coordenadas">Coordenadas</option>
+                    </select>
+                  </div>
+              </div>
+
+              <!-- Localização/Cidade -->
+              <div class="row" ng-if="campos.methodChosen == 'Cidade'">
+                  <div class="large-4 columns">
+                    <div class="row">
+                        <div class="large-4 columns">
+                          <input id="cityInput" type="text" value="" placeholder="Cidade" ng-model="campos.city"></input>
+                        </div>
+                      </div>
+                </div>
+              </div>
+
+              <!-- Localização/Coordenadas -->
+              <div class="row" ng-if="campos.methodChosen == 'Coordenadas'">
+                  <div class="large-6 columns">
+                    <div class="row">
+                        <div class="large-4 columns">
+                          <span>Latitude</span><input type="number" value="" ng-model="campos.lat"></input>
+                          <span>Longitude</span><input type="number" value="" ng-model="campos.lon"></input>
+                        </div>
+                      </div>
+                </div>
+              </div>
+
+            </fieldset>
+          </form>
+      </div>
+    </div>
+
+    <!-- Planta -->
+    <div class="row">
+        <div class="large-6 columns">
+          <form>
+            <fieldset>
+              <legend>Planta</legend>
+              <div class="row">
+                  <div class="large-4 columns">
+                    <select ng-model="campos.plant" ng-required>
+                      <option value="">Escolha a planta</option>
+                      <option ng-value="field" ng-repeat="field in campos.fields.Cultures">{{ field }}</option>
+                    </select>
+                  </div>
+              </div>
+            </fieldset>
+          </form>
+      </div>
+    </div>
+
+    <!-- Tipo de Rega -->
+    <div class="row">
+        <div class="large-6 columns">
+          <form>
+            <fieldset>
+              <legend>Tipo de rega</legend>
+              <div class="row">
+                  <div class="large-4 columns">
+                    <select ng-model="campos.water" ng-required>
+                      <option value="">Escolha o tipo</option>
+                      <option ng-value="field" ng-repeat="field in campos.fields.TypeofWatering">{{ field }}</option>
+                    </select>
+                  </div>
+                </div>
+            </fieldset>
+          </form>
+      </div>
+    </div>
+
+    <!-- Dados introduzidos pelo utilizador -->
+    <div class="row ">
+        <div class="large-6 columns">
+          <div class="results" ng-if="true">
+              <h4 class="description">Os seus dados:</h4>
+              <div class="resultscol">
+                <p ng-if="campos.city">Cidade : {{ campos.city }}</p>
+                <p ng-if="campos.lat">Latitude: {{ campos.lat }} </p>
+                <p ng-if="campos.lon">Longitude: {{ campos.lon }} </p>
+                <p ng-if="campos.plant">Planta: {{ campos.plant }}</p>
+                <p ng-if="campos.water">Tipo de Rega: {{ campos.water }}</p>
+              </div>
+              
+          </div>
+        </div>
+    </div> 
+
+    <div class="row ">
+        <div class="large-6 columns">
+            <a href="#" class="button success" ng-click="campos.weather()">Enviar dados</a>
+            <a href="#" class="button success" ng-click="campos.octave()">Octave cenas</a>
+            <a href="#" class="button success" ng-click="campos.plantCoeficient()">plant cenas</a>
+            <a href="#" class="button success" ng-click="campos.waterCoeficient()">water cenas</a>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <canvas id="myChart"></canvas>
   </div>
-  <canvas id="myChart"></canvas>
-  
+
   <div class="footer">
     <p>App made by: João Vilaça -- jpggvilaca@gmail.com</p>
   </div>
-</body>
 
-  <script src='//code.jquery.com/jquery-2.1.3.min.js'></script>
-  <script src="build/js/bootstrap.min.js"></script>
-  <script src='build/js/sendinfo.js'></script>
-  <script>riot.mount('sendinfo')</script>
-  <script src="bower_components/chartjs/Chart.js"></script>
-  <script src='build/js/index.js'></script>
+  <script>
+    $(document).foundation();
+  </script>
+
+  </body>
 </html>

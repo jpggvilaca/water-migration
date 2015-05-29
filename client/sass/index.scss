@@ -1,3 +1,10 @@
+@import 'foundation-sites/scss/normalize.scss';
+@import 'foundation-sites/scss/foundation/functions.scss';
+@import 'foundation-sites/scss/foundation/components/grid.scss';
+@import 'foundation-sites/scss/foundation/components/buttons.scss';
+@import 'foundation-sites/scss/foundation/components/labels.scss';
+@import 'foundation-sites/scss/foundation/components/tooltips.scss';
+
 * {
 	box-sizing: border-box;
 }
@@ -33,89 +40,56 @@ body {
   	color: #000303;
   }
 
+  div > span {
+    font-size: 12px;
+    margin: 10px 0 2px;
+    display: block;
+    padding-bottom: 0;
+  }
+
+  select {
+    min-width: 150px;
+  }
+
   p {
   	font-size: 14px;
   }
-
-  button,
-  .btn {
-    background-color: #2b9280 !important;
-    display: block;
-    margin-top: 20px !important;
-    margin: 10px 0px !important;
-    padding: 6px 50px;
-
-		&.btn-default {
-      padding: 6px 30px;
-      margin-top: 40px !important;
-		}
-	}
 }
 
 .main-wrapper {
   display: inline-block;
   flex: 1 1 auto;
-  margin-bottom: 35px;
+  margin-top: 35px;
   margin-left: 40px;
-  padding: 15px 20px 0 80px;
   text-align: left;
   width: 960px;
   width: auto;
 
-	.col-1 {
-		display: inline-block;
-		transition: color 1.5s ease-in-out;
-	}
 }
 
-sendinfo {
-  display:flex;
+.has-tip {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.button {
+  padding: 10px 22px;
+}
+
+#cityInput {
+  margin-top: 8px;
 }
 
 .header {
-    background-color: #2b9280;
-    color: #fff;
-    display: block;
-    width: 100%;
+  background-color: #2b9280;
+  color: #fff;
+  display: block;
+  width: 100%;
 }
 
-.form-description {
-  border-bottom: 1px solid #2b9280;
-  margin-top: 15px;
-  max-width: 940px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-
-  + label {
-      max-width: 70%;
-  }
-}
-
-.step1 {
-
-  max-width: 470px;
-
-	select,
-	input {
-		display: block;
-	}
-}
-
-.results {
-  color: black;
-  display: inline-block;
-  height: 100%;
-  max-width: 400px;
-  padding-left: 20px;
-  text-align: left;
-
-    .description {
-    	margin: 10px 0;
-    }
-}
 
 #myChart {
-  display: inline-block;
+  display: block;
   height: 340px;
   margin-left: 20px;
   width: 400px;
@@ -139,42 +113,6 @@ sendinfo {
 	p {
 		display: inline-block;
 	}
-}
-
-.step1 .form-control {
-  min-width: 165px;
-  text-align: left;
-  width: auto;
-}
-
-.cidade {
-	margin-top: 10px;
-	input {
-		max-width: 164px;
-	}	
-}
-
-.step1 label {
-  display: block;
-  text-align: left;
-  font-size: 12px;
-  padding-top: 10px;
-}
-
-.step2 {
-  display: inline-block;
-  height: auto;
-  min-width: 470px;
-  position: relative;
-
-}
-
-#diainicial,
-#diafinal,
-#startmonth,
-#endmonth {
-  max-width: 165px;
-  width: 100%;
 }
 
 

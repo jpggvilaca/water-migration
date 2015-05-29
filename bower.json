@@ -1,10 +1,13 @@
 {
-  "name": "watering-plan",
+  "name": "watering-plan-migration",
   "authors": [
-    "Joao Vilaca - David Marques"
+    "Joao Vilaca"
   ],
   "license": "MIT",
   "dependencies": {
     "chartjs": "~1.0.2"
+  },
+  "devDependencies": {
+    "jquery": "~2.1.4"
   }
 }

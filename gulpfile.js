@@ -5,16 +5,23 @@ var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	plumber = require('gulp-plumber'),
 	webserver = require('gulp-webserver'),
-	minifyHTML = require('gulp-minify-html'),
-	gulpRiot = require('gulp-riot'),
-	riot = require('riot');
+	minifyHTML = require('gulp-minify-html')
+
+var paths = {
+  scripts: ['client/scripts/*.js',
+      'client/*.js',
+      'client/app/controllers/*.js',
+      'client/app/services/*.js',
+      'node_modules/foundation-sites/js/foundation/foundation.tooltip.js'
+    ]
+}
 
 //// Gulp tasks ////
 
 // Uglifies (minifies js)
 
 gulp.task('scripts', function() {
-	gulp.src('client/scripts/*.js')
+	gulp.src(paths.scripts)
 		.pipe(uglify())
 		.pipe(plumber())
 		.pipe(gulp.dest('build/js'));
@@ -24,11 +31,12 @@ gulp.task('scripts', function() {
 
 gulp.task('styles', function() {
 	gulp.src('client/sass/*.scss')
-		.pipe(sass({
-			outputStyle: 'compressed',
-			errLogToConsole: true
-		}))
-		.pipe(gulp.dest('build/styles/'))
+    		.pipe(sass({
+    			outputStyle: 'compressed',
+    			errLogToConsole: true,
+          includePaths: [ 'node_modules' ]
+    		}))
+    		.pipe(gulp.dest('build/styles/'))
 });
 
 // HTML minifier
@@ -44,20 +52,11 @@ gulp.task('minify-html', function() {
     .pipe(gulp.dest('build/'));
 });
 
-// Mounts riot tags
-
-gulp.task('riot-gulp', function() {
-	return gulp.src('client/tags/*.tag')
-	.pipe(gulpRiot())
-	.pipe(gulp.dest('build/js'));
-});
-
 // Watch Task (watch changes on all files)
 
 gulp.task('watch', function(){
 	gulp.watch('client/scripts/*.js', ['scripts']);
 	gulp.watch('client/sass/*.scss', ['styles']);
-	gulp.watch('client/tags/*.tag', ['riot-gulp']);
 });
 
 // Starts the server
@@ -68,11 +67,11 @@ gulp.task('webserver', function() {
       livereload: false,
       directoryListing: false,
       open: false,
-      port: 3000
+      port: 3500
     }));
 });
 
-// Main task (which runs everything)
+// Main tasks
 
-gulp.task('default', ['scripts', 'styles', 'riot-gulp', 'webserver', 'watch']);
-gulp.task('dist', ['scripts', 'styles', 'riot-gulp', 'minify-html']);
+gulp.task('default', ['scripts', 'styles', 'webserver', 'watch']);
+gulp.task('dist', ['scripts', 'styles', 'minify-html']);
